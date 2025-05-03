@@ -22,8 +22,12 @@ def get_posts():
 @app.route('/api/posts', methods=['POST'])
 def add_post():
     data = request.get_json()
-    if not data or not data.get('title') or not data.get('content'):
-        return jsonify({'error': 'Invalid post data'}), 400
+
+    required_fields = ['title', 'content']
+    missing_fields = [field for field in required_fields if field not in data]
+
+    if missing_fields:
+        return jsonify({'error': f'Missing fields:{", ".join(missing_fields)}'}), 400
 
     new_post = {
         "id": POSTS[-1]['id'] + 1 if POSTS else 1,
@@ -32,6 +36,16 @@ def add_post():
     }
     POSTS.append(new_post)
     return jsonify(new_post), 201
+
+@app.route('/api/posts/<int:id>', methods=['DELETE'])
+def delete_post(id):
+    post = next((post for post in POSTS if post['id'] == id), None)
+    if post:
+        POSTS.remove(post)
+        return jsonify({'message': f'Post with id {id} deleted successfully'}), 200
+    else:
+        return jsonify({'error': f'Post with id {id} not found'}), 404
+
 
 
 if __name__ == '__main__':
