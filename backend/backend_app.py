@@ -27,7 +27,11 @@ def log_request_info():
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
     blog = PostService()
-    return blog.get_all_posts()
+    success, result = blog.get_all_posts()
+    if success:
+        return jsonify(result), 200
+    else:
+        return jsonify({'error': result}), 400
 
 
 @app.route('/api/posts', methods=['POST'])
@@ -46,17 +50,22 @@ def add_post():
         "title": data['title'],
         "content": data['content']
     }
-    blog.create_post(new_post)
-    return jsonify(new_post), 201
+    success, result = blog.create_post(new_post)
+    if success:
+        POSTS.append(new_post)
+        return jsonify(result), 201
+    else:
+        return jsonify({'error': result}), 400
+
 
 @app.route('/api/posts/<int:id>', methods=['DELETE'])
 def delete_post(id):
-    post = next((post for post in POSTS if post['id'] == id), None)
-    if post:
-        POSTS.remove(post)
-        return jsonify({'message': f'Post with id {id} deleted successfully'}), 200
+    blog = PostService()
+    success, result = blog.delete_post(id)
+    if success:
+        return jsonify({'message': result}), 200
     else:
-        return jsonify({'error': f'Post with id {id} not found'}), 404
+        return jsonify({'error': result}), 404
 
 
 

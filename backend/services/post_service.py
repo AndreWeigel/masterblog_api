@@ -12,7 +12,7 @@ class PostService:
             )
             db.session.add(post)
             db.session.commit()
-            return True, post
+            return True, post.to_dict()
         except Exception as e:
             db.session.rollback()
             return False, str(e)
@@ -29,7 +29,7 @@ class PostService:
     def get_post_by_id(post_id):
         try:
             post = Post.query.filter_by(id=post_id).first()
-            return True, post
+            return True, post.to_dict()
         except Exception as e:
             return False, str(e)
 
