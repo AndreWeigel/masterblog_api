@@ -55,7 +55,7 @@ class PostService:
             post.title = data['title']
             post.content = data['content']
             db.session.commit()
-            return True, post
+            return True, post.to_dict()
         except Exception as e:
             db.session.rollback()
             return False, str(e)

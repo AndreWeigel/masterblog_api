@@ -67,7 +67,15 @@ def delete_post(id):
     else:
         return jsonify({'error': result}), 404
 
-
+@app.route('/api/posts/<int:id>', methods=['PUT'])
+def update_post(id):
+    blog = PostService()
+    data = request.get_json()
+    success, result = blog.update_post(id, data)
+    if success:
+        return jsonify(result), 200
+    else:
+        return jsonify({'error': result}), 404
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5002, debug=True)

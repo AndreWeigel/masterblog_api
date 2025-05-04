@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77923980-99d1-470a-bfc1-c98cc964bb52" name="Changes" comment="implement delete function">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/extensions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/models/post.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/services/post_service.py" afterDir="false" />
+    <list default="true" id="77923980-99d1-470a-bfc1-c98cc964bb52" name="Changes" comment="change delete to orm class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/backend_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend_app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/post_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/post_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +93,7 @@
       <updated>1745937363282</updated>
       <workItem from="1745937364380" duration="1286000" />
       <workItem from="1745946802289" duration="15701000" />
-      <workItem from="1746282944749" duration="9273000" />
+      <workItem from="1746282944749" duration="11234000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <option name="closed" value="true" />
@@ -123,7 +119,31 @@
       <option name="project" value="LOCAL" />
       <updated>1746283698389</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="replace JSON data with ORM classes for better structure and persistence">
+      <option name="closed" value="true" />
+      <created>1746385674091</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1746385674091</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add cool error handling to post_service.py">
+      <option name="closed" value="true" />
+      <created>1746386414504</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1746386414504</updated>
+    </task>
+    <task id="LOCAL-00006" summary="change delete to orm class">
+      <option name="closed" value="true" />
+      <created>1746386942232</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1746386942232</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,12 +153,15 @@
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="implement add_post function" />
     <MESSAGE value="implement delete function" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement delete function" />
+    <MESSAGE value="replace JSON data with ORM classes for better structure and persistence" />
+    <MESSAGE value="add cool error handling to post_service.py" />
+    <MESSAGE value="change delete to orm class" />
+    <option name="LAST_COMMIT_MESSAGE" value="change delete to orm class" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/masterblog_api$post_service.coverage" NAME="post_service Coverage Results" MODIFIED="1746381116283" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/services" />
-    <SUITE FILE_PATH="coverage/masterblog_api$frontend_app.coverage" NAME="frontend_app Coverage Results" MODIFIED="1746385221061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/frontend" />
+    <SUITE FILE_PATH="coverage/masterblog_api$frontend_app.coverage" NAME="frontend_app Coverage Results" MODIFIED="1746386480022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/frontend" />
     <SUITE FILE_PATH="coverage/masterblog_api$post.coverage" NAME="post Coverage Results" MODIFIED="1746380033482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/models" />
-    <SUITE FILE_PATH="coverage/masterblog_api$backend_app.coverage" NAME="backend_app Coverage Results" MODIFIED="1746385209114" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
+    <SUITE FILE_PATH="coverage/masterblog_api$backend_app.coverage" NAME="backend_app Coverage Results" MODIFIED="1746386864330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend" />
   </component>
 </project>
