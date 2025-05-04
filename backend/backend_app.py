@@ -1,7 +1,17 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
+
+from backend.services.post_service import PostService
+from backend.extensions import db
+
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
+
 CORS(app)  # This will enable CORS for all routes
 
 POSTS = [
@@ -16,11 +26,14 @@ def log_request_info():
 
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
-    return jsonify(POSTS)
+    blog = PostService()
+    return blog.get_all_posts()
 
 
 @app.route('/api/posts', methods=['POST'])
 def add_post():
+    blog = PostService()
+
     data = request.get_json()
 
     required_fields = ['title', 'content']
@@ -30,11 +43,10 @@ def add_post():
         return jsonify({'error': f'Missing fields:{", ".join(missing_fields)}'}), 400
 
     new_post = {
-        "id": POSTS[-1]['id'] + 1 if POSTS else 1,
         "title": data['title'],
         "content": data['content']
     }
-    POSTS.append(new_post)
+    blog.create_post(new_post)
     return jsonify(new_post), 201
 
 @app.route('/api/posts/<int:id>', methods=['DELETE'])
