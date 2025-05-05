@@ -2,6 +2,7 @@ from backend.extensions import db
 
 
 class Post(db.Model):
+    """Post model."""
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True)

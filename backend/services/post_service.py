@@ -5,8 +5,10 @@ from sqlalchemy import asc, desc
 
 
 class PostService:
+    """Service class for Post model."""
     @staticmethod
     def create_post(data):
+        """Create a new post."""
         try:
             post = Post(
                 title=data['title'],
@@ -21,6 +23,7 @@ class PostService:
 
     @staticmethod
     def get_all_posts(sort_by='id', order='desc'):
+        """Get all posts."""
         try:
             # Determine order direction
             column = getattr(Post, sort_by)
@@ -33,6 +36,7 @@ class PostService:
 
     @staticmethod
     def get_post_by_id(post_id):
+        """Get a post by ID."""
         try:
             post = Post.query.filter_by(id=post_id).first()
             return True, post.to_dict()
@@ -41,6 +45,7 @@ class PostService:
 
     @staticmethod
     def search_posts( **kwargs):
+        """Search for posts based on title and content."""
         try:
             title_query = kwargs.get('title', '').strip()
             content_query = kwargs.get('content', '').strip()
@@ -58,6 +63,7 @@ class PostService:
 
     @staticmethod
     def delete_post(post_id):
+        """Delete a post by ID."""
         try:
             post = Post.query.filter_by(id=post_id).first()
             if not post:
@@ -71,6 +77,7 @@ class PostService:
 
     @staticmethod
     def update_post(post_id, data):
+        """Update a post by ID."""
         try:
             post = Post.query.filter_by(id=post_id).first()
             if not post:
