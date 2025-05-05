@@ -1,7 +1,7 @@
-from backend.models.post import Post
-from backend.extensions import db
 from sqlalchemy import asc, desc
 
+from backend.models.post import Post
+from backend.extensions import db
 
 
 class PostService:
@@ -22,17 +22,17 @@ class PostService:
             return False, str(e)
 
     @staticmethod
-    def get_all_posts(sort_by='id', order='desc'):
+    def get_all_posts(sort_by='id', order='desc', page = 1, per_page = 10):
         """Get all posts."""
         try:
             # Determine order direction
             column = getattr(Post, sort_by)
             ordering = desc(column) if order == 'desc' else asc(column)
-
-            posts = [post.to_dict() for post in Post.query.order_by(ordering).all()]
-            return True, posts
+            pagination = Post.query.order_by(ordering).paginate(page=page, per_page=per_page, error_out=False)
+            posts = [post.to_dict() for post in pagination.items]
+            return True, posts, pagination.total
         except Exception as e:
-            return False, str(e)
+            return False, str(e), ''
 
     @staticmethod
     def get_post_by_id(post_id):

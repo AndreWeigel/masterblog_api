@@ -1,9 +1,11 @@
+import math
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-
 from backend.services.post_service import PostService
 from backend.extensions import db
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
@@ -14,10 +16,6 @@ with app.app_context():
 
 CORS(app)  # This will enable CORS for all routes
 
-POSTS = [
-    {"id": 1, "title": "First post", "content": "This is the first post."},
-    {"id": 2, "title": "Second post", "content": "This is the second post."},
-]
 
 @app.before_request
 def log_request_info():
@@ -28,16 +26,27 @@ def log_request_info():
 def get_posts():
     blog = PostService()
 
-    sort_by = request.args.get('sort', '').strip()
-    order = request.args.get('order', 'asc').strip()
+    # Query params
+    sort_by = request.args.get('sort', 'id').strip()
+    order = request.args.get('order', 'desc').strip()
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
 
-    if sort_by:
-        success, result = blog.get_all_posts(sort_by, order)
-    else:
-        success, result = blog.get_all_posts()
+    success, result, total = blog.get_all_posts(
+        sort_by=sort_by,
+        order=order,
+        page=page,
+        per_page=per_page
+    )
 
     if success:
-        return jsonify(result), 200
+        return jsonify({
+                'posts': result,
+                'page': page,
+                'per_page': per_page,
+                'total': total,
+                'total_pages': math.ceil(total / per_page)
+            }), 200
     else:
         return jsonify({'error': result}), 400
 
@@ -60,7 +69,6 @@ def add_post():
     }
     success, result = blog.create_post(new_post)
     if success:
-        POSTS.append(new_post)
         return jsonify(result), 201
     else:
         return jsonify({'error': result}), 400

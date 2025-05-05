@@ -10,13 +10,15 @@ window.onload = function() {
 }
 
 // Function to fetch all the posts from the API and display them on the page
-function loadPosts() {
+function loadPosts(page = 1, perPage = 10) {
     // Retrieve the base URL from the input field and save it to local storage
     var baseUrl = document.getElementById('api-base-url').value;
     localStorage.setItem('apiBaseUrl', baseUrl);
 
+    const url = `${baseUrl}/posts?page=${page}&per_page=${perPage}`;
+
     // Use the Fetch API to send a GET request to the /posts endpoint
-    fetch(baseUrl + '/posts')
+    fetch(url)
         .then(response => response.json())  // Parse the JSON data from the response
         .then(data => {  // Once the data is ready, we can use it
             // Clear out the post container first
@@ -24,15 +26,29 @@ function loadPosts() {
             postContainer.innerHTML = '';
 
             // For each post in the response, create a new post element and add it to the page
-            data.forEach(post => {
+            data.posts.forEach(post => {
                 const postDiv = document.createElement('div');
                 postDiv.className = 'post';
                 postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>
                 <button onclick="deletePost(${post.id})">Delete</button>`;
                 postContainer.appendChild(postDiv);
             });
+            renderPaginationControls(data.page, data.total_pages);
         })
         .catch(error => console.error('Error:', error));  // If an error occurs, log it to the console
+}
+
+function renderPaginationControls(currentPage, totalPages) {
+    const container = document.getElementById('pagination-controls');
+    container.innerHTML = '';
+
+    for (let page = 1; page <= totalPages; page++) {
+        const button = document.createElement('button');
+        button.textContent = page;
+        button.disabled = page === currentPage;
+        button.onclick = () => loadPosts(page);
+        container.appendChild(button);
+    }
 }
 
 // Function to send a POST request to the API to add a new post
@@ -51,7 +67,7 @@ function addPost() {
     .then(response => response.json())  // Parse the JSON data from the response
     .then(post => {
         console.log('Post added:', post);
-        loadPosts(); // Reload the posts after adding a new one
+        loadPosts(1); // Reload the posts after adding a new one
     })
     .catch(error => console.error('Error:', error));  // If an error occurs, log it to the console
 }
