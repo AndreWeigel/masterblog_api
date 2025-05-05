@@ -27,7 +27,15 @@ def log_request_info():
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
     blog = PostService()
-    success, result = blog.get_all_posts()
+
+    sort_by = request.args.get('sort', '').strip()
+    order = request.args.get('order', 'asc').strip()
+
+    if sort_by:
+        success, result = blog.get_all_posts(sort_by, order)
+    else:
+        success, result = blog.get_all_posts()
+
     if success:
         return jsonify(result), 200
     else:
@@ -77,5 +85,15 @@ def update_post(id):
     else:
         return jsonify({'error': result}), 404
 
+@app.route('/api/posts/search', methods=['GET'])
+def search_post():
+    title_query = request.args.get('title', '').strip()
+    content_query = request.args.get('content', '').strip()
+    blog = PostService()
+    success, result = blog.search_posts(title = title_query, content = content_query)
+    if success:
+        return jsonify(result), 200
+    else:
+        return jsonify({'error': result}), 404
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5002, debug=True)
